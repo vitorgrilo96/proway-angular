@@ -1,0 +1,21 @@
+<h2>lista de produtos</h2>
+@if(produtos.length === 0){
+  <div>
+    <span>nenhum produto cadastrado</span>
+  </div>
+}
+@else {
+<ul>
+  <!-- foreach -->
+  @for(produto of produtos; track produto){
+  <li>
+    <span>{{produto}}</span>
+    <button>Editar</button>
+    <button (click)="apagarProduto(produto)">Apagar</button>
+  </li>
+  }
+</ul>
+}
+<label for="nome">Nome</label>
+<input type="text" id="nome" [(ngModel)]="nomeProduto">
+<button (click)="cadastrarProduto()">cadastrar</button>
