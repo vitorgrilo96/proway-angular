@@ -1,5 +1,20 @@
-<h1>olá mundo {{nome}}</h1>
+<h1>Olá mundo {{nome}}!</h1>
 
-<app-cliente-lista></app-cliente-lista>
+<nav>
+    <ul>
+        <li>
+            <a routerLink="/produtos" routerLinkActive="active" arialCurrentWhenActive="page">produtos</a>
+        </li>
+        <li>
+            <a routerLink="/clientes" routerLinkActive="active" arialCurrentWhenActive="page">clientes</a>
+        </li>
+        <li>
+            <a routerLink="/filmes" routerLinkActive="active" arialCurrentWhenActive="page">filmes</a>
+        </li>
+        <li>
+            <a routerLink="/" routerLinkActive="active" arialCurrentWhenActive="page">home</a>
+        </li>
+    </ul>
+</nav>
 
-<app-produto-lista></app-produto-lista>
+<router-outlet></router-outlet>

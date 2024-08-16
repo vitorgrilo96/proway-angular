@@ -1,0 +1,22 @@
+{
+  "filmes": [
+    {
+      "id": "1",
+      "nome": "Senhor dos Anéis As duas torres",
+      "duracao": 180,
+      "lancamento": "12-27-2002",
+      "autor": "J. R. R. Token",
+      "orcamento": 94000000,
+      "categoria": "ficção científica"
+    },
+    {
+      "id": "3",
+      "nome": "Jurassic Park",
+      "duracao": 140,
+      "lancamento": "02-11-2017",
+      "autor": "Michael Crichton",
+      "orcamento": 63000000,
+      "categoria": "Aventura"
+    }
+  ]
+}
