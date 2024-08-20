@@ -1,3 +1,6 @@
+<p-toast />
+<p-confirmDialog />
+
 <h1>lista de filmes</h1>
 
 <button (click)="consultar()">Consultar</button>
@@ -27,8 +30,8 @@
             <td>{{filme.categoria}}</td>
             <td>{{filme.orcamento}}</td>
             <td>
-                <p-button label="Editar" severity="primary" icon="pi pi-pencil" (click)="editar()" class="mr-2" size="small"/>
-                <p-button label="Apagar" severity="danger" icon="pi pi-trash" (click)="apagar(filme.id)" class="mr-2" size="small"/>
+                <p-button label="Editar" severity="primary" icon="pi pi-pencil" (click)="editar(filme.id)" class="mr-2" size="small"/>
+                <p-button label="Apagar" severity="danger" icon="pi pi-trash" (click)="apagar(filme)" class="mr-2" size="small"/>
             </td>
         </tr>
     </ng-template>

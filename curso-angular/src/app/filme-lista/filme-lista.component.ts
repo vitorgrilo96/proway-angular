@@ -1,15 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
+import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
-interface Filme{
+interface Filme {
   id: number;
   nome: string;
   duracao: number;
@@ -23,15 +28,19 @@ interface Filme{
   selector: 'app-filme-lista',
   standalone: true,
   imports: [
-  FormsModule,
-  ButtonModule,
-  TableModule,
-  DialogModule,
-  InputTextModule,
-  InputNumberModule,
-  CalendarModule,
-  DropdownModule,
+    FormsModule,
+    ButtonModule,
+    TableModule,
+    DialogModule,
+    InputTextModule,
+    InputNumberModule,
+    CalendarModule,
+    DropdownModule,
+    ToastModule,
+    ConfirmDialogModule,
+    ProgressSpinnerModule,
   ],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './filme-lista.component.html',
   styleUrl: './filme-lista.component.css'
 })
@@ -39,51 +48,66 @@ interface Filme{
 export class FilmeListaComponent {
   filmes: Array<Filme> = [];
   carregandoFilmes: boolean = false;
-  httpClient : HttpClient;
-  visible: boolean = false;
 
   categorias = [
-    {"id": "terror", "nome": "terror"},
-    {"id": "suspense", "nome": "suspense"},
-    {"id": "ação", "nome": "ação"},
+    { "id": "terror", "nome": "terror" },
+    { "id": "suspense", "nome": "suspense" },
+    { "id": "ação", "nome": "ação" },
   ]
 
-  nome:string = "";
-  duracao:number = 0;
-  lancamento:string = "";
-  autor:string = "";
-  orcamento:number = 0;
-  categoria:any = "";
+  visible: boolean = false;
 
-  constructor(httpClient: HttpClient){
-    this.httpClient = httpClient;
+  nome: string = "";
+  duracao: number = 0;
+  lancamento: string = "";
+  autor: string = "";
+  orcamento: number = 0;
+  categoria: any = "";
+
+  constructor(
+    private router: Router,
+    private httpClient: HttpClient, private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
 
   ngOnInit() {
     this.consultar();
   }
 
-  consultar(){
+  consultar() {
     this.carregandoFilmes = true;
     this.httpClient.get<Array<Filme>>("http://localhost:3000/filmes").subscribe(x => this.aposConsultar(x));
   }
 
-  aposConsultar(dados: Array<Filme>){
+  aposConsultar(dados: Array<Filme>) {
     this.filmes = dados;
     this.carregandoFilmes = false;
   }
 
-  apagar(id: number){
-    this.httpClient.delete(`http://localhost:3000/filmes/${id}`)
-    .subscribe(x => this.apagouRegistro());
+  apagar(filme: Filme) {
+    this.confirmationService.confirm({
+      message: `deseja mesmo apagar '${filme.nome}'?`,
+      header: 'cuida',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: "Sim",
+      rejectLabel: "Não",
+      rejectButtonStyleClass: "p-button-text",
+      accept: () => {
+        this.httpClient.delete(`http://localhost:3000/filmes/${filme.id}`)
+          .subscribe(x => this.apagouRegistro());
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'success', detail: 'não foi apagado', life: 3000 });
+      }
+    });
   }
 
-  apagouRegistro(){
+  apagouRegistro() {
+    this.messageService.add({detail: "filme apagado", severity: "success"});
     // atualizar os registros pois o filme foi apagado
     this.consultar();
   }
 
-  salvar(){
+  salvar() {
     let dados = {
       nome: this.nome,
       duracao: this.duracao,
@@ -94,13 +118,13 @@ export class FilmeListaComponent {
 
     this.httpClient.post("http://localhost:3000/filmes", dados)
       .subscribe(x => this.aposSalvar(x));
-}
+  }
 
-aposSalvar(x: any) {
-  this.limparCampos();
-  this.consultar();
-  this.visible = false;
-}
+  aposSalvar(x: any) {
+    this.limparCampos();
+    this.consultar();
+    this.visible = false;
+  }
 
   limparCampos() {
     this.nome = "";
@@ -111,8 +135,8 @@ aposSalvar(x: any) {
     this.categoria = "";
   }
 
-  editar() {
-
+  editar(id: number) {
+    this.router.navigate([`/filmes/${id}`]);
   }
 
   showDialog() {

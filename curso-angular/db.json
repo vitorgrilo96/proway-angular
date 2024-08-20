@@ -1,22 +1,31 @@
 {
   "filmes": [
     {
-      "id": "1",
       "nome": "Senhor dos Anéis As duas torres",
       "duracao": 180,
-      "lancamento": "12-27-2002",
       "autor": "J. R. R. Token",
+      "lancamento": "2020-01-01T03:00:00.000Z",
       "orcamento": 94000000,
-      "categoria": "ficção científica"
+      "categoria": "terror",
+      "id": "1"
     },
     {
-      "id": "3",
-      "nome": "Jurassic Park",
-      "duracao": 140,
+      "id": "2",
+      "nome": "Deadpool",
+      "duracao": 180,
       "lancamento": "02-11-2017",
-      "autor": "Michael Crichton",
-      "orcamento": 63000000,
-      "categoria": "Aventura"
+      "autor": "Tim Miller",
+      "orcamento": 58000000,
+      "categoria": "Ação"
+    },
+    {
+      "id": "7017",
+      "nome": "asdasd",
+      "duracao": 30,
+      "autor": "3",
+      "lancamento": "2025-01-01T03:00:00.000Z",
+      "orcamento": 2220,
+      "categoria": "Suspense"
     }
   ]
 }
